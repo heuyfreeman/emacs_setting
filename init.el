@@ -110,7 +110,7 @@
  '(markdown-command "pandoc")
  '(package-selected-packages
    (quote
-    (smarty-mode markdown-preview-mode markdown-mode markdown-mode+ pandoc yasnippet-snippets yasnippet web-mode package-utils auto-complete php-mode yaml-mode pcre2el helm browse-kill-ring visual-regexp bm goto-chg recentf-ext wgrep dired-toggle dired-details ace-jump-mode migemo ddskk dict-tree))))
+    (neotree flycheck-pos-tip flycheck smarty-mode markdown-preview-mode markdown-mode markdown-mode+ pandoc yasnippet-snippets yasnippet web-mode package-utils auto-complete php-mode yaml-mode pcre2el helm browse-kill-ring visual-regexp bm goto-chg recentf-ext wgrep dired-toggle dired-details ace-jump-mode migemo ddskk dict-tree))))
 
 
 ;; M-x skk-tutorialでNo file found as ?とエラーが出たときにskk-tut-fileを設定
@@ -121,16 +121,16 @@
 ;;見出し語入力中入力候補がでる。変換したい時はM-SPC
 (setq skk-dcomp-activate t)
 
-;; migemo.elからcmigemoを使う初期設定
-(when (locate-library "migemo")
-  (setq migemo-command "/usr/local/bin/cmigemo") ; HERE cmigemoバイナリ
-  (setq migemo-options '("-q" "--emacs"))
-  (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict") ; HERE Migemo辞書
-  (setq migemo-user-dictionary nil)
-  (setq migemo-regex-dictionary nil)
-  (setq migemo-coding-system 'utf-8-unix)
-  (load-library "migemo")
-  (migemo-init))
+;; ;; migemo.elからcmigemoを使う初期設定
+ (when (locate-library "migemo")
+   (setq migemo-command "/usr/local/bin/cmigemo") ; HERE cmigemoバイナリ
+   (setq migemo-options '("-q" "--emacs"))
+   (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict") ; HERE Migemo辞書
+   (setq migemo-user-dictionary nil)
+   (setq migemo-regex-dictionary nil)
+   (setq migemo-coding-system 'utf-8-unix)
+   (load-library "migemo")
+   (migemo-init))
 
 ;; ace-jump-mode設定 "C-o"に割当て
 (require 'ace-jump-mode)
@@ -203,7 +203,7 @@
 ;;asciiフォントをRicty Diminishedに
 (set-face-attribute 'default nil
 		    :family "Ricty Diminished"
-		    :height 120)
+		    :height 160)
 
 
 ;; 日本語フォントをNoto Serif CJK JPに
@@ -322,8 +322,18 @@
   ;;   (setq web-mode-script-padding 1) ; <script>内のインデント開始レベル
      )
    (add-hook 'web-mode-hook  'web-mode-hook)
-)
+ )
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;               MarkDown Mode          ;;;
+;;               Fly Check                              ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(with-eval-after-load 'flycheck
+    (flycheck-pos-tip-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;              neotree  ファイルツリー常駐               ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;F8でneotreeをトグル
+(require 'neotree)
+(global-set-key [f9] 'neotree-toggle)
